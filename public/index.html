@@ -3,19 +3,16 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="../public/css/main.css">
-        <title>Tomato_Time</title>
+        <title>My_Time</title>
     </head>
     <body>
-            <div>
-                帳號：<input type="text" name="name"><br>
-                密碼：<input type="text" name="password"><br>
-                <button class="login">Login</button>
-                <button class="new">new registration</button>
-            </div>
-            <br>
-            <div class="main">
-                <button id="submit">START</button>
-            </div>
+        <h1><div class="title">Time_Management</div></h1>
+        <button id="start">START</button>
+        <div class="welcome_user">Welcome <?php echo $username; ?></div>
+        <div class="login"></div>
+        <div class="footer">
+            <?php echo $site_title; ?> &copy; <?php echo date('Y');?>
+        </div>
     </body>
     <script src="../public/js/jquery-1.11.2.min.js"></script>
     <script src="../public/js/main.js"></script>

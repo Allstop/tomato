@@ -3,9 +3,7 @@ var list={},
     BASE_URL = location.protocol + '//' + location.hostname;
 
 $("#submit").click(function(){
-  var user = $(".name").val();
-
-  loginCheck(user);
+  sessionCheck();
 });
 //建立User/password～執行click
 $(document).on("click","#start",function(){
@@ -18,21 +16,24 @@ $(document).on("click","#start",function(){
   }
   createCheck();
 });
-//main
-var main = function() {
+//session檢查
+var sessionCheck = function() {
   $.ajax({
-    url: BASE_URL + "/tomatoTime/loginCheck",
+    url: BASE_URL + "/tomatoTime/sessionCheck",
     type: "POST",
     dataType: "JSON",
     data: list,
     success: function(response) {
       if (response.status == 'success') {
+        console.log(response);
       } else {
-        login();
+        console.log(response);
+        loginCheck();
       }
     },
     error: function () {
     }
+
   })
 };
 //login檢查

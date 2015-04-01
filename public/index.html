@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="../public/css/main.css">
-  	<title>Tamoto_Time</title>
-</head>
-	<body>
-		<div class="title">
-			<input type="button" value="START" style="width:200px;height:40px;font-size:20px;">
-		</div>
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../public/css/main.css">
+        <title>My_Time</title>
+    </head>
+    <body>
+        <h1><div class="title">Time_Management</div></h1>
+        <button id="start">START</button>
+        <div class="welcome_user">Welcome <?php echo $username; ?></div>
+        <div class="login"></div>
+        <div class="footer">
+            <?php echo $site_title; ?> &copy; <?php echo date('Y');?>
+        </div>
+    </body>
+    <script src="../public/js/jquery-1.11.2.min.js"></script>
+    <script src="../public/js/main.js"></script>
 </html>

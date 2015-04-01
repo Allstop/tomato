@@ -8,8 +8,12 @@ body {
    font-weight: 100;
    font-family: 'Lato';
 }
-
-.title {
+#start {
+   width:200px;
+   height:40px;
+   font-size:20px;
+}
+.main {
    text-align: center;
    display: table-cell;
    font-size: 96px;

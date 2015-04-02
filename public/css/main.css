@@ -14,8 +14,11 @@ body {
    font-size:20px;
 }
 .main {
-   text-align: center;
-   display: table-cell;
-   font-size: 96px;
-   margin-bottom: 40px;
+   color: #76b8ff;
 }
+.listRecord tr.title{ color: white; background-color: #8a2f12; width: 100%;}
+.listRecord tr td {  width:100px; }
+.listRecord td.t3 { border-top-width: 1px; border-top-style: solid; color: black; }
+.listRecord td.r3 { border-right-width: 1px; border-right-style: solid; color: black; }
+.listRecord td.b3 { border-bottom-width: 1px; border-bottom-style: solid; color: black; }
+.listRecord td.l3 { border-left-width: 1px; border-left-style: solid; color: black; }

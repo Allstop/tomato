@@ -32,7 +32,13 @@ class MainModel
     public function sessionCheck($name)
     {
         if ($name == true) {
-            return $name;
+            $sql = self::$db->prepare("SELECT id,name FROM user
+            where name='".$name."' "
+            );
+            if ($sql->execute()) {
+                $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
+                return $sql;
+            }
         } else {
             return false;
         }
@@ -40,12 +46,12 @@ class MainModel
     //*檢查登入資料是否已存在
     public function loginCheck($gtPost)
     {
-        $sql = self::$db->query(
-            "SELECT name FROM user
+        $sql = self::$db->prepare("SELECT id, name FROM user
         where name='".$gtPost['name']."' and password='".$gtPost['password']."' "
         );
-        if ($sql->fetch()) {
-            return 'success';
+        if ($sql->execute()) {
+            $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
+            return $sql;
         } else {
             return false;
         }
@@ -83,38 +89,47 @@ class MainModel
             return false;
         }
     }
-    //*建立使用者
-    public function createRecord($gtPost)
+    //*建立清單
+    public function createRecord($gtlPost)
     {
         if ($this->status !== true) {
             return 'error in create!';
         }
         try {
-            $_name = $gtPost['name'];
+            $_userId = $gtlPost['userId'];
+            $_date = date("Y-m-d");
+            $_starttime = $gtlPost['starttime'];
+            $_endtime = $gtlPost['endtime'];
+            $_description = $gtlPost['description'];
             $sql = self::$db->prepare(
-                "INSERT INTO record (description)
-            VALUES (:description)"
+                "INSERT INTO record (userId, date, starttime, endtime, description)
+            VALUES (:userId, :date, :starttime, :endtime, :description)"
             );
-            $sql->bindvalue(':name', $_name);
+            //var_dump($_endtime);
+            $sql->bindvalue(':userId', $_userId);
+            $sql->bindvalue(':date', $_date);
+            $sql->bindvalue(':starttime', $_starttime);
+            $sql->bindvalue(':endtime', $_endtime);
+            $sql->bindvalue(':description', $_description);
 
-            return ($sql->execute()) ? $gtPost['name'] : '失敗';
+            return ($sql->execute()) ? '成功': '失敗';
         } catch (PDOException $e) {
             return 'error in insert!';
         }
     }
     //*工作清單
-    public function listRecord($name)
+    public function listRecord($userId)
     {
         if ($this->status !== true) {
             return 'error';
         }
         try {
-            $sql = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
-                                       FROM user
-                                       inner join record on user.id=record.userid
-                                       where name='".$name."' order by date,starttime" );
-            if ($sql->execute()) {
-                return $sql->fetchAll(\PDO::FETCH_ASSOC);
+            $sqltt = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
+                                       FROM record
+                                       where userId='".$userId."' order by date,starttime" );
+            if ($sqltt->execute()) {
+                $sql=$sqltt->fetchAll(\PDO::FETCH_ASSOC);
+               return $sql;
             }else{
                 return false;
             }

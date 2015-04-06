@@ -12,6 +12,7 @@ class MainController
     private $Model = NULL;
     private $gtPost = NULL;
     private $gtlPost = NULL;
+    private $stash = NULL;
     // 使用者選擇的動作
     private $action = '__construct';
     // 初始化要執行的動作以及物件
@@ -20,7 +21,9 @@ class MainController
         $this->Model = new MainModel();
         $this->gtPost = $this->getPost();
         $this->gtlPost = $this->getListPost();
-        //View::forge('home/content', array('username' => 'Cara'));
+        $_SESSION['name']=$_GET['name'];
+        $_SESSION['id']=$_GET['id'];
+
     }
 
     public final function run()
@@ -74,9 +77,8 @@ class MainController
     //session檢查
     public function sessionCheck()
     {
-        $_SESSION['name'] = $this->gtPost['name'];
         $status = $this->Model->sessionCheck($_SESSION['name']);
-        if ($status == 'success') {
+        if ($status == false) {
             return View::render(array('status' => false));
         }else {
             return View::render(array('status' => $status));
@@ -92,10 +94,10 @@ class MainController
     public function loginCheck()
     {
         $status = $this->Model->loginCheck($this->gtPost);
-        if ($status == 'success') {
+        if ($status == false) {
             return View::render(array('status' => $status));
         }else {
-            return View::render(array('status' => false));
+            return View::render(array('status' => $status));
         }
     }
     //建立
@@ -114,10 +116,16 @@ class MainController
             return View::render(array('status' => 'success'));
         }
     }
-
+    //建立清單
+    public function createRecord()
+    {
+        $status = $this->Model->createRecord($this->gtlPost);
+        return View::render(array('status' => $status));
+    }
+    //工作清單
     public function listRecord()
     {
-        $status = $this->Model->listRecord($_GET['name']);
+        $status = $this->Model->listRecord($_SESSION['id'] );
         if ($status == false) {
             return View::render(array('status' => false));
         }else {
@@ -126,3 +134,4 @@ class MainController
     }
 }
 
+session_destroy();

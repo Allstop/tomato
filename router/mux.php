@@ -4,6 +4,34 @@
     0 => 
     array (
       0 => false,
+      1 => '/createRecord',
+      2 => 
+      array (
+        0 => 'Mvc\\Controller\\MainController',
+        1 => 'createRecord',
+      ),
+      3 => 
+      array (
+        'method' => 2,
+      ),
+    ),
+    1 => 
+    array (
+      0 => false,
+      1 => '/sessionCheck',
+      2 => 
+      array (
+        0 => 'Mvc\\Controller\\MainController',
+        1 => 'sessionCheck',
+      ),
+      3 => 
+      array (
+        'method' => 2,
+      ),
+    ),
+    2 => 
+    array (
+      0 => false,
       1 => '/createCheck',
       2 => 
       array (
@@ -15,7 +43,7 @@
         'method' => 2,
       ),
     ),
-    1 => 
+    3 => 
     array (
       0 => false,
       1 => '/loginCheck',
@@ -29,7 +57,21 @@
         'method' => 2,
       ),
     ),
-    2 => 
+    4 => 
+    array (
+      0 => false,
+      1 => '/listRecord',
+      2 => 
+      array (
+        0 => 'Mvc\\Controller\\MainController',
+        1 => 'listRecord',
+      ),
+      3 => 
+      array (
+        'method' => 1,
+      ),
+    ),
+    5 => 
     array (
       0 => false,
       1 => '/create',
@@ -43,21 +85,7 @@
         'method' => 2,
       ),
     ),
-    3 => 
-    array (
-      0 => false,
-      1 => '/login',
-      2 => 
-      array (
-        0 => 'Mvc\\Controller\\MainController',
-        1 => 'login',
-      ),
-      3 => 
-      array (
-        'method' => 2,
-      ),
-    ),
-    4 => 
+    6 => 
     array (
       0 => false,
       1 => '/',

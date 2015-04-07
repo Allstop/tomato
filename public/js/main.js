@@ -1,7 +1,7 @@
 //全域變數
 var list={},
+    userId,
     name,
-    id,
     startTimeValue,
     endTimeValue,
     BASE_URL = location.protocol + '//' + location.hostname;
@@ -31,7 +31,7 @@ $(document).on("click",".logout",function(){
 $("#submit").click(function(){
     var descriptionVaule = $(".description").val();
     Record = {
-            userId : id,
+            name : name,
             starttime : startTimeValue,
             endtime : endTimeValue,
             description : descriptionVaule
@@ -88,7 +88,7 @@ $(document).on("click",".log",function(){
 //點選New registration
 $(document).on("click",".new",function(){
   var $Div = $('<div></div>');
-  $Div.append('建立帳號：<input type="text" class="name" name="name"><br/>');
+  $Div.append('建立帳號：<input type="text" class="name" name="vname"><br/>');
   $Div.append('建立密碼：<input type="text" class="password" name="password"><br/>');
   $Div.append('<button class="go">GO</button>');
   $('.login').html('');
@@ -115,11 +115,11 @@ var sessionCheck = function() {
     url: BASE_URL + "/sessionCheck",
     type: "POST",
     dataType: "JSON",
-    data: {id:id},
+    data: {name:name},
     success: function(response) {
       if (response.status == false) {
         var $Div = $('<div></div>');
-        $Div.append('帳號：<input type="text" class="name" name="name" value="cara"><br/>');
+        $Div.append('帳號：<input type="text" class="name" name="vname" value="cara"><br/>');
         $Div.append('密碼：<input type="text" class="password" name="password" value="2222"><br/><br/>');
         $Div.append('<button class="log">Login</button>&nbsp;');
         $Div.append('<button class="new">New registration</button>');
@@ -146,8 +146,8 @@ var loginCheck = function() {
         sessionCheck();
       } else {
         alert("登入成功！");
-        name=response.status[0]['name'];
-        id = response.status[0]['id'];
+        name = response.status[0]['name'];
+        userId = response.status[0]['id'];
         $('.welcome_user').html('');
         $('.welcome_user').append("Welcome , "+name+"&nbsp;&nbsp;");
         $('.welcome_user').append('<a href="#" class="logout">登出</a>');
@@ -207,10 +207,12 @@ var createRecord = function(Record) {
         dataType: "JSON",
         data: Record,
         success: function (response) {
+          console.log(response.status);
+          alert('createRecord建立成功！');
             if (response.status == '成功') {
                 $('#do').hide();
                 $('#start').show();
-                listRecord(id);
+                listRecord();
             }else{
                 alert('createRecord建立失敗！');
             }
@@ -221,13 +223,11 @@ var createRecord = function(Record) {
 };
 //listRecord
 var listRecord = function() {
-        console.log(name);
-        console.log(id);
   $.ajax({
     url: BASE_URL + "/listRecord",
     type: "GET",
     dataType: "JSON",
-    data: {"id": id},
+    data: {"name": name},
     success: function (response) {
       if (response.status == false) {
       }else{
@@ -268,7 +268,7 @@ if (name != ''){
   $('.welcome_user').html('');
   $('.welcome_user').append("Welcome , "+name+"&nbsp;&nbsp;");
   $('.welcome_user').append('<a href="#" class="logout">登出</a>');
-  listRecord(id);
+  listRecord();
 }else{
   $('.welcome_user').html('');
   $('.welcome_user').append("Welcome , Guest");

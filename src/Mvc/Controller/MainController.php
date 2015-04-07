@@ -1,8 +1,6 @@
 <?php
 namespace Mvc\Controller;
 
-session_start();
-
 use Mvc\Model\MainModel;
 use Mvc\View\View;
 
@@ -21,9 +19,6 @@ class MainController
         $this->Model = new MainModel();
         $this->gtPost = $this->getPost();
         $this->gtlPost = $this->getListPost();
-        $_SESSION['name']=$_GET['name'];
-        $_SESSION['id']=$_GET['id'];
-
     }
 
     public final function run()
@@ -63,6 +58,9 @@ class MainController
         if (isset($_POST['date'])) {
             $ListData['date'] = $_POST['date'];
         }
+        if (isset($_POST['name'])) {
+            $ListData['name'] = $_POST['name'];
+        }
         if (isset($_POST['starttime'])) {
             $ListData['starttime'] = $_POST['starttime'];
         }
@@ -77,7 +75,7 @@ class MainController
     //session檢查
     public function sessionCheck()
     {
-        $status = $this->Model->sessionCheck($_SESSION['name']);
+        $status = $this->Model->sessionCheck($_GET['name']);
         if ($status == false) {
             return View::render(array('status' => false));
         }else {
@@ -125,7 +123,7 @@ class MainController
     //工作清單
     public function listRecord()
     {
-        $status = $this->Model->listRecord($_SESSION['id'] );
+        $status = $this->Model->listRecord($_GET['name']);
         if ($status == false) {
             return View::render(array('status' => false));
         }else {
@@ -133,5 +131,3 @@ class MainController
         }
     }
 }
-
-session_destroy();

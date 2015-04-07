@@ -96,7 +96,13 @@ class MainModel
             return 'error in create!';
         }
         try {
-            $_userId = $gtlPost['userId'];
+            $userId = self::$db->prepare("SELECT id
+                                       FROM  user
+                                       where name='".$gtlPost['name']."' " );
+            if ($userId->execute()) {
+                $userId=$userId->fetchAll(\PDO::FETCH_ASSOC);
+            }
+            $_userId = $userId[0]['id'];
             $_date = date("Y-m-d");
             $_starttime = $gtlPost['starttime'];
             $_endtime = $gtlPost['endtime'];
@@ -105,30 +111,29 @@ class MainModel
                 "INSERT INTO record (userId, date, starttime, endtime, description)
             VALUES (:userId, :date, :starttime, :endtime, :description)"
             );
-            //var_dump($_endtime);
             $sql->bindvalue(':userId', $_userId);
             $sql->bindvalue(':date', $_date);
             $sql->bindvalue(':starttime', $_starttime);
             $sql->bindvalue(':endtime', $_endtime);
             $sql->bindvalue(':description', $_description);
-
             return ($sql->execute()) ? '成功': '失敗';
         } catch (PDOException $e) {
             return 'error in insert!';
         }
     }
     //*工作清單
-    public function listRecord($userId)
+    public function listRecord($name)
     {
         if ($this->status !== true) {
             return 'error';
         }
         try {
-            $sqltt = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
+            $sql = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
                                        FROM record
-                                       where userId='".$userId."' order by date,starttime" );
-            if ($sqltt->execute()) {
-                $sql=$sqltt->fetchAll(\PDO::FETCH_ASSOC);
+                                       inner join user on user.id = record.userId
+                                       where name='".$name."' order by date,starttime" );
+            if ($sql->execute()) {
+                $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
                return $sql;
             }else{
                 return false;

@@ -12,7 +12,7 @@ class MainController
     private $gtlPost = NULL;
     private $stash = NULL;
     // 使用者選擇的動作
-    private $action = '__construct';
+    private $action = 'run';
     // 初始化要執行的動作以及物件
     public function __construct()
     {
@@ -44,7 +44,7 @@ class MainController
         }
         return $userData;
     }
-    //取得資料
+    //取得record資料
     public function getListPost()
     {
         foreach ($_POST as $key => $value)
@@ -52,20 +52,14 @@ class MainController
             $_POST[$key] = trim($value);
         }
         $ListData = array();
-        if (isset($_POST['userId'])) {
-            $ListData['userId'] = $_POST['userId'];
-        }
-        if (isset($_POST['date'])) {
-            $ListData['date'] = $_POST['date'];
-        }
         if (isset($_POST['name'])) {
             $ListData['name'] = $_POST['name'];
         }
-        if (isset($_POST['starttime'])) {
-            $ListData['starttime'] = $_POST['starttime'];
+        if (isset($_POST['startTime'])) {
+            $ListData['starttime'] = $_POST['startTime'];
         }
-        if (isset($_POST['endtime'])) {
-            $ListData['endtime'] = $_POST['endtime'];
+        if (isset($_POST['endTime'])) {
+            $ListData['endtime'] = $_POST['endTime'];
         }
         if (isset($_POST['description'])) {
             $ListData['description'] = $_POST['description'];
@@ -75,39 +69,45 @@ class MainController
     //session檢查
     public function sessionCheck()
     {
-        $status = $this->Model->sessionCheck($_GET['name']);
+//        if (isset($_SESSION['name']) && isset($_SESSION['password'])) {
+//            session_destroy();
+//            return false;
+//        } else {
+        $status = $this->Model->sessionCheck($_SESSION['name']);
         if ($status == false) {
             return View::render(array('status' => false));
         }else {
-            return View::render(array('status' => $status));
+            return View::render(array('status' => $status, 'username' => $_SESSION['name']));
         }
     }
-    //登入
-    public function login()
+    //登出
+    public function logout()
     {
-        $view = View::forge('login');
-        return $view;
+        session_destroy();
     }
     //登入檢查
     public function loginCheck()
     {
-        $status = $this->Model->loginCheck($this->gtPost);
+        $_SESSION['name'] = $this->gtPost['name'];
+        $_SESSION['password'] = $this->gtPost['password'];
+        $status = $this->Model->loginCheck($_SESSION);
         if ($status == false) {
-            return View::render(array('status' => $status));
+            session_destroy();
+            return View::render(array('status' => false));
         }else {
-            return View::render(array('status' => $status));
+            return View::render(array('status' => $status, 'username' => $_SESSION['name']));
         }
     }
     //建立
     public function create()
     {
-        $status = $this->Model->create($this->gtPost);
+        $status = $this->Model->create($_SESSION);
         return View::render(array('status' => $status));
     }
     //建立檢查
     public function createCheck()
     {
-        $status = $this->Model->createCheck($this->gtPost['name']);
+        $status = $this->Model->createCheck($_SESSION['name']);
         if ($status == 'success') {
             return View::render(array('status' => false));
         }else {
@@ -123,10 +123,11 @@ class MainController
     //工作清單
     public function listRecord()
     {
-        $status = $this->Model->listRecord($_GET['name']);
+        $status = $this->Model->listRecord($_SESSION['name']);
         if ($status == false) {
             return View::render(array('status' => false));
         }else {
+
             return View::render(array('status' => $status));
         }
     }

@@ -18,4 +18,7 @@ $mux->post('/createCheck', ['Mvc\Controller\MainController', 'createCheck']);
 $mux->post('/createRecord', ['Mvc\Controller\MainController', 'createRecord']);
 //*listRecord
 $mux->get('/listRecord', ['Mvc\Controller\MainController', 'listRecord']);
+//*登出
+$mux->get('/logout', ['Mvc\Controller\MainController', 'logout']);
+
 return $mux;

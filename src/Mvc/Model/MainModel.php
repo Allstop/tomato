@@ -32,13 +32,7 @@ class MainModel
     public function sessionCheck($name)
     {
         if ($name == true) {
-            $sql = self::$db->prepare("SELECT id,name FROM user
-            where name='".$name."' "
-            );
-            if ($sql->execute()) {
-                $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-                return $sql;
-            }
+            return $name;
         } else {
             return false;
         }
@@ -77,11 +71,11 @@ class MainModel
         }
     }
     //*檢查建立資料是否已存在
-    public function createCheck($gtPost)
+    public function createCheck($name)
     {
         $sql = self::$db->query(
             "SELECT name FROM user
-        where name='".$gtPost."'"
+        where name='".$name."'"
         );
         if ($sql->fetch()) {
             return 'success';
@@ -95,6 +89,7 @@ class MainModel
         if ($this->status !== true) {
             return 'error in create!';
         }
+
         try {
             $userId = self::$db->prepare("SELECT id
                                        FROM  user
@@ -134,7 +129,9 @@ class MainModel
                                        where name='".$name."' order by date,starttime" );
             if ($sql->execute()) {
                 $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-               return $sql;
+                //$arr = array('name'=>$name);
+                //return array_merge($sql,$arr);
+                return $sql;
             }else{
                 return false;
             }

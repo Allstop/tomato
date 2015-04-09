@@ -20,9 +20,12 @@ body {
    ime-mode:disabled;
    width:20px;
 }
-.listRecord tr.title{ color: white; background-color: #8a2f12; width: 100%;}
+.listRecord tr.title { color: white; background-color: #8a2f12; width: 100%;}
 .listRecord tr td {  width:100px; }
-.listRecord td.t3 { border-top-width: 1px; border-top-style: solid; color: black; }
-.listRecord td.r3 { border-right-width: 1px; border-right-style: solid; color: black; }
-.listRecord td.b3 { border-bottom-width: 1px; border-bottom-style: solid; color: black; }
-.listRecord td.l3 { border-left-width: 1px; border-left-style: solid; color: black; }
+.listRecord tr td.w {  width:200px; }
+.listRecord td.t1 { border-top-width: 1px; border-top-style: solid; color: black; }
+.listRecord td.r1 { border-right-width: 1px; border-right-style: solid; color: black; }
+.listRecord td.b1 { border-bottom-width: 1px; border-bottom-style: solid; color: black; }
+.listRecord td.l1 { border-left-width: 1px; border-left-style: solid; color: black; }
+
+.listRecord td.b3 { border-bottom-style: solid; color: #d6fff3; background-color: #8b17ff;}

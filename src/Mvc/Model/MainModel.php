@@ -37,52 +37,6 @@ class MainModel
             return false;
         }
     }
-    //*檢查登入資料是否已存在
-    public function loginCheck($gtPost)
-    {
-        $sql = self::$db->prepare("SELECT id, name FROM user
-        where name='".$gtPost['name']."' and password='".$gtPost['password']."' "
-        );
-        if ($sql->execute()) {
-            $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-            return $sql;
-        } else {
-            return false;
-        }
-    }
-    //*建立使用者
-    public function create($gtPost)
-    {
-        if ($this->status !== true) {
-            return 'error in create!';
-        }
-        try {
-            $_name = $gtPost['name'];
-            $_password = $gtPost['password'];
-            $sql = self::$db->prepare(
-                "INSERT INTO user (name, password)
-            VALUES (:name, :password)"
-            );
-            $sql->bindvalue(':name', $_name);
-            $sql->bindvalue(':password', $_password);
-            return ($sql->execute()) ? $gtPost['name'] : '失敗';
-        } catch (PDOException $e) {
-            return 'error in insert!';
-        }
-    }
-    //*檢查建立資料是否已存在
-    public function createCheck($name)
-    {
-        $sql = self::$db->query(
-            "SELECT name FROM user
-        where name='".$name."'"
-        );
-        if ($sql->fetch()) {
-            return 'success';
-        } else {
-            return false;
-        }
-    }
     //*建立清單
     public function createRecord($gtlPost)
     {
@@ -123,15 +77,18 @@ class MainModel
             return 'error';
         }
         try {
+            $cat = self::$db->prepare("SELECT date catdate
+                                       FROM record
+                                       inner join user on user.id = record.userId
+                                       where name='".$name."' group by date" );
             $sql = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
                                        FROM record
                                        inner join user on user.id = record.userId
                                        where name='".$name."' order by date,starttime" );
-            if ($sql->execute()) {
+            if ($sql->execute() && $cat->execute()) {
                 $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-                //$arr = array('name'=>$name);
-                //return array_merge($sql,$arr);
-                return $sql;
+                $cat=$cat->fetchAll(\PDO::FETCH_ASSOC);
+                return array_merge($sql, $cat);
             }else{
                 return false;
             }

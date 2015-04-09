@@ -249,45 +249,53 @@ var createRecord = function(Record) {
 };
 //listRecord
 var listRecord = function() {
-  $.ajax({
-    url: BASE_URL + "/listRecord",
-    type: "GET",
-    dataType: "JSON",
-    data: {"name": username},
-    success: function (response) {
-      if (response.status == false) {
-      }else{
-        var title = ["日期","起始","結束","描述"];
-        $('.listRecord').html('');
-        $('.listRecord').append('<h3 class=main>工作清單</h3>');
-        var $table = $('<table></table>');
-        var $Tr = $('<tr class="title"></tr>');
-        for (var m in title ) {
-          var $Td = $('<td></td>');
-          $Td.text(title[m]);
-          $Tr.append($Td);
-          $table.append($Tr);
-          m++;
+    $.ajax({
+        url: BASE_URL + "/listRecord",
+        type: "GET",
+        dataType: "JSON",
+        data: {"name": username},
+            success: function (response) {
+                if (response.status == false) {
+                }else{
+                    var title = ["起始","結束","描述"];
+                    $('.listRecord').html('');
+                    $('.listRecord').append('<h3 class=main>工作清單</h3>');
+                    var $table = $('<table></table>');
+                    var $Tr = $('<tr class="title"></tr>');
+                    for (var m in title ) {
+                        var $Td = $('<td></td>');
+                        $Td.text(title[m]);
+                        $Tr.append($Td);
+                        $table.append($Tr);
+                        m++;
+                    }
+                    for (var key1 in response.catdate ) {
+                        var $Tr = $('<tr></tr>');
+                        var $Td = $('<td class="b3" ColSpan=3 Align="Center"></td>');
+                            temp1 = response.catdate[key1];
+                            $Td.text(temp1);
+                            $Tr.append($Td);
+                            $table.append($Tr);
+                            for (var key2 in response.status ) {
+                                temp2 = response.status[key2];
+                                if (temp1 == temp2.date){
+                                  var $Tr = $('<tr></tr>');
+                                  $Tr.append('<td class="b1">'+temp2.starttime+'</td>');
+                                  $table.append($Tr);
+                                  $Tr.append('<td class="b1">'+temp2.endtime+'</td>');
+                                  $table.append($Tr);
+                                  $Tr.append('<td class="b1 w">'+temp2.description+'</td>');
+                                  $table.append($Tr);
+                                  $('.listRecord').append($table);
+                                }
+                            }
+                    }
+
+            }
+        },
+        error: function () {
         }
-        for (var key in response.status ) {
-          var $Tr = $('<tr></tr>'),
-            temp = response.status[key];
-          $Tr.append('<td ColSpan=4 Align="Center">'+temp.date+'</td>');
-          $table.append($Tr);
-          var $Tr = $('<tr></tr>');
-          for (var j in temp ) {
-            var $Td = $('<td class="b3"></td>');
-            $Td.text(temp[j]);
-            $Tr.append($Td);
-            $table.append($Tr);
-          }
-          $('.listRecord').append($table);
-        }
-      }
-    },
-    error: function () {
-    }
-  })
+    })
 };
 
 sessionCheck();

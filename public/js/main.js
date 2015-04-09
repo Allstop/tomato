@@ -51,6 +51,7 @@ var clockDown=function(timerValue){
 //工作紀錄清單
 $('#do').hide();
 $('#setTime').hide();
+
 //點選START，有username就執行start隱藏＆開始倒數
 $(document).on("click","#start",function(){
   $('.create').html('');
@@ -81,6 +82,7 @@ $("#submit").click(function(){
 });
 //點選Login
 $(document).on("click",".log",function(){
+
   if ($(".name").val() == '' || $(".password").val() == '') {
     alert("帳號、密碼不得為空值！");
   } else {
@@ -160,6 +162,7 @@ var logout = function(){
     success: function() {
       username == null;
       sessionCheck();
+      $('#setTime').hide();
       $('#pad').hide();
     },
     error: function () {

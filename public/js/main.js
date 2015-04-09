@@ -3,20 +3,11 @@ var username,
   startTimeValue,
   endTimeValue,
   BASE_URL = location.protocol + '//' + location.hostname;
-//只能輸入數字
-var ValidateNumber=function(e, pnumber){
-  if (!/^\d+$/.test(pnumber))
-  {
-    $(e).val(/^\d+/.exec($(e).val()));
-  }
-  return false;
-}
 //倒數計時事件
-var clockDown=function(timerValue){
+var clockDown=function(){
   startTime = new Date();
   endTime = new Date();
-  timerValue=Number(timerValue);
-  endTime.setMinutes(endTime.getMinutes()+timerValue);
+  endTime.setMinutes(endTime.getMinutes()+25);
   var spantime = (endTime - startTime)/1000;
   this.getString = function(dt){
     return dt.getFullYear() + "-" +
@@ -50,18 +41,12 @@ var clockDown=function(timerValue){
 }
 //工作紀錄清單
 $('#do').hide();
-$('#setTime').hide();
+
 //點選START，有username就執行start隱藏＆開始倒數
 $(document).on("click","#start",function(){
   $('.create').html('');
   $('#start').hide();
-  $('#setTime').show();
-});
-//點選set送出，輸入倒數計時分鐘
-$("#set").click(function(){
-  var timerValue = $(".timeSet").val();
-  clockDown(timerValue);
-  $('#setTime').hide();
+  clockDown();
   $('#pad').show();
 });
 //點選logout
@@ -81,6 +66,7 @@ $("#submit").click(function(){
 });
 //點選Login
 $(document).on("click",".log",function(){
+
   if ($(".name").val() == '' || $(".password").val() == '') {
     alert("帳號、密碼不得為空值！");
   } else {

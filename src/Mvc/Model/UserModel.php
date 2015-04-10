@@ -2,7 +2,7 @@
 
 namespace Mvc\Model;
 
-class UserModel
+class UserModel implements \Mvc\Interfaces\IUser
 {
 
     private static $db = null;
@@ -36,7 +36,7 @@ class UserModel
         );
         if ($sql->execute()) {
             $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-            return $sql;
+            return $sql[0];
         } else {
             return false;
         }

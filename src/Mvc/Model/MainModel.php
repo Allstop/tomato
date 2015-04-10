@@ -2,7 +2,7 @@
 
 namespace Mvc\Model;
 
-class MainModel
+class MainModel implements \Mvc\Interfaces\IMain
 {
 
     private static $db = null;
@@ -80,11 +80,11 @@ class MainModel
             $cat = self::$db->prepare("SELECT date catdate
                                        FROM record
                                        inner join user on user.id = record.userId
-                                       where name='".$name."' group by date" );
+                                       where name='".$name."' group by date  order by date desc" );
             $sql = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
                                        FROM record
                                        inner join user on user.id = record.userId
-                                       where name='".$name."' order by date,starttime" );
+                                       where name='".$name."' order by starttime" );
             if ($sql->execute() && $cat->execute()) {
                 $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
                 $cat=$cat->fetchAll(\PDO::FETCH_ASSOC);

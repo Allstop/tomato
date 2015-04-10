@@ -22,7 +22,7 @@ body {
 }
 .listRecord tr.title { color: white; background-color: #8a2f12; width: 100%;}
 .listRecord tr td {  width:100px; }
-.listRecord tr td.w {  width:200px; }
+.listRecord tr td.w {  width:300px; }
 .listRecord td.t1 { border-top-width: 1px; border-top-style: solid; color: black; }
 .listRecord td.r1 { border-right-width: 1px; border-right-style: solid; color: black; }
 .listRecord td.b1 { border-bottom-width: 1px; border-bottom-style: solid; color: black; }

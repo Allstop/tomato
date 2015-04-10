@@ -40,16 +40,7 @@ class MainController extends Controller
         if ($status == false) {
             return View::render(array('status' => false));
         }else {
-            for ($j=0; $j<count($status); $j++) {
-                if ($status[$j][catdate] == true){
-                    $catdate[] = $status[$j][catdate];
-                }
-                if ($status[$j][catdate] == false){
-                    $statusA[] = $status[$j];
-                }
-            }
-            return View::render(array('catdate' => $catdate,
-                                      'status' => $statusA));
+            return View::render(array('status' => $status));
         }
     }
 }

@@ -268,28 +268,24 @@ var listRecord = function() {
                     $table.append($Tr);
                     m++;
                 }
-                for (var key1 in response.catdate ) {
+                for (var key in response.status ) {
                     var $Tr = $('<tr></tr>');
                     var $Td = $('<td class="b3" ColSpan=3 Align="Center"></td>');
-                    temp1 = response.catdate[key1];
-                    $Td.text(temp1);
+                    $Td.text(key);
                     $Tr.append($Td);
                     $table.append($Tr);
-                    for (var key2 in response.status ) {
-                        temp2 = response.status[key2];
-                        if (temp1 == temp2.date){
-                            var $Tr = $('<tr></tr>');
-                            $Tr.append('<td class="b1">'+temp2.starttime+'</td>');
-                            $table.append($Tr);
-                            $Tr.append('<td class="b1">'+temp2.endtime+'</td>');
-                            $table.append($Tr);
-                            $Tr.append('<td class="b1 w">'+temp2.description+'</td>');
-                            $table.append($Tr);
-                            $('.listRecord').append($table);
-                        }
+                    for (var i in response.status[key] ) {
+                        var $Tr = $('<tr></tr>');
+                        var $Td = $('<td class="b1">'+response.status[key][i].starttime+'</td>');
+                        $Tr.append($Td);
+                        var $Td = $('<td class="b1">'+response.status[key][i].endtime+'</td>');
+                        $Tr.append($Td);
+                        var $Td = $('<td class="b1 w">'+response.status[key][i].description+'</td>');
+                        $Tr.append($Td);
+                        $table.append($Tr);
+                        $('.listRecord').append($table);
                     }
                 }
-
             }
         },
         error: function () {

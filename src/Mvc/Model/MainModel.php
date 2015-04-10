@@ -77,18 +77,19 @@ class MainModel implements \Mvc\Interfaces\IMain
             return 'error';
         }
         try {
-            $cat = self::$db->prepare("SELECT date catdate
-                                       FROM record
-                                       inner join user on user.id = record.userId
-                                       where name='".$name."' group by date" );
             $sql = self::$db->prepare("SELECT date,time(starttime) starttime,time(endtime)endtime,description
                                        FROM record
                                        inner join user on user.id = record.userId
-                                       where name='".$name."' order by date,starttime" );
-            if ($sql->execute() && $cat->execute()) {
+                                       where name='".$name."' order by date desc, starttime" );
+            if ($sql->execute()) {
                 $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-                $cat=$cat->fetchAll(\PDO::FETCH_ASSOC);
-                return array_merge($sql, $cat);
+                $i=0;
+                foreach ($sql as $value){
+                    $date = array_shift($value);
+                    $arr[$date][$i] =$value;
+                    $i++;
+                }
+                return $arr;
             }else{
                 return false;
             }

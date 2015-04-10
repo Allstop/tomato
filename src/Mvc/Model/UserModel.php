@@ -2,7 +2,7 @@
 
 namespace Mvc\Model;
 
-class UserModel
+class UserModel implements \Mvc\Interfaces\IUser
 {
 
     private static $db = null;
@@ -31,12 +31,12 @@ class UserModel
     //*檢查登入資料是否已存在
     public function loginCheck($gtPost)
     {
-        $sql = self::$db->prepare("SELECT id, name FROM user
+        $sql = self::$db->prepare("SELECT name FROM user
         where name='".$gtPost['name']."' and password='".$gtPost['password']."' "
         );
         if ($sql->execute()) {
             $sql=$sql->fetchAll(\PDO::FETCH_ASSOC);
-            return $sql;
+            return $sql[0];
         } else {
             return false;
         }

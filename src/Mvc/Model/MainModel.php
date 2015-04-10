@@ -2,7 +2,7 @@
 
 namespace Mvc\Model;
 
-class MainModel
+class MainModel implements \Mvc\Interfaces\IMain
 {
 
     private static $db = null;

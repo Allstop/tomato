@@ -36,7 +36,7 @@ var clockDown=function(timerValue){
             var h = Math.floor((spantime % (24*3600))/3600);
             var m = Math.floor((spantime % 3600)/(60));
             var s = Math.floor(spantime%60);
-            str =  h + "时 " + m + "分 " + s + "秒 ";
+            str =  h + "時 " + m + "分 " + s + "秒 ";
             document.getElementById("pad").innerHTML = str;
         }else{
             $('#pad').hide();

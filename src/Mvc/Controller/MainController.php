@@ -1,7 +1,7 @@
 <?php
 namespace Mvc\Controller;
 
-use Mvc\Interfaces\IMain;
+use Mvc\Core\IMainData;
 use Mvc\Model\MainModel;
 use Mvc\View\View;
 use Mvc\Sys\Controller;
@@ -12,11 +12,11 @@ class MainController extends Controller
     private $Model = NULL;
     private $gtPost = NULL;
     // 初始化要執行的動作以及物件
-    public function __construct(IMain $main)
+    public function __construct()
     {
         Controller::init();
-        $this->Model($main);
-        $this->gtPost =self::$app->getListPost();
+        $this->Model = IMainData::getMain();
+        $this->gtPost = self::$app->getListPost();
     }
     //session檢查
     public function sessionCheck()

@@ -1,7 +1,7 @@
 <?php
 namespace Mvc\Controller;
 
-use Mvc\Model\UserModel;
+use Mvc\Interfaces\IUser;
 use Mvc\View\View;
 use Mvc\Sys\Controller;
 
@@ -11,10 +11,10 @@ class UserController extends Controller
     private $Model = NULL;
     private $gtPost = NULL;
     // 初始化要執行的動作以及物件
-    public function __construct()
+    public function __construct(IUser $user)
     {
         Controller::init();
-        $this->Model = new UserModel();
+        $this->Model($user);
         $this->gtPost = self::$app->getPost();
     }
     //登出

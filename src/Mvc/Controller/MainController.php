@@ -20,11 +20,10 @@ class MainController extends Controller
     //session檢查
     public function sessionCheck()
     {
-        $status = $this->Model->sessionCheck($_SESSION['name']);
-        if ($status == false) {
-            return View::render(array('status' => false));
-        } else {
-            return View::render(array('status' => $status, 'username' => $_SESSION['name']));
+        if (isset($_SESSION['name'])) {
+            return View::render(array('username' => $_SESSION['name']));
+        }else {
+            return View::render(array('username' => null));
         }
     }
     //建立清單

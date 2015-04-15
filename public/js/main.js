@@ -84,7 +84,7 @@ $(document).on("click",".log",function(){
 $(document).on("click",".new",function(){
   var $Div = $('<div></div>');
   $Div.append('建立帳號：<input type="text" class="name" name="vname"><br/>');
-  $Div.append('建立密碼：<input type="text" class="password" name="password"><br/>');
+  $Div.append('建立密碼：<input type="password" class="password" name="password"><br/>');
   $Div.append('<button class="go">GO</button>');
   $('.login').html('');
   $('.create').html('');
@@ -110,29 +110,26 @@ var sessionCheck = function() {
     url: BASE_URL + "/sessionCheck",
     type: "POST",
     dataType: "JSON",
-    data: {name:username},
     success: function(response) {
       username = response.username;
-      if (username != null){
+      if (response.username != null){
         $('#do').hide();
         $('.welcome_user').html('');
         $('.welcome_user').append('<button id="start">START</button></br>');
-        $('.welcome_user').append("Welcome , "+username+"&nbsp;&nbsp;");
+        $('.welcome_user').append("Welcome , "+response.username+"&nbsp;&nbsp;");
         $('.welcome_user').append('<a href="#" class="logout">登出</a>');
         listRecord();
       }else{
-        if (response.status == false) {
           $('.welcome_user').html('');
           $('.welcome_user').append("Welcome , Guest");
           var $Div = $('<div></div>');
           $Div.append('帳號：<input type="text" class="name" name="vname" value="Cara"><br/>');
-          $Div.append('密碼：<input type="text" class="password" name="password" value="2222"><br/><br/>');
+          $Div.append('密碼：<input type="password" class="password" name="password" value="2222"><br/><br/>');
           $Div.append('<button class="log">Login</button>&nbsp;');
           $Div.append('<button class="new">New registration</button>');
           $('.login').html('');
           $('.login').append($Div);
           $('.listRecord').html('');
-        }
       }
     },
     error: function () {
